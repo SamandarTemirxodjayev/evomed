@@ -443,3 +443,4 @@ mongoose
       }
     });
   });
+bot.start()
