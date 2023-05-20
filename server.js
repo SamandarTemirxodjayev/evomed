@@ -2,6 +2,8 @@ const TelegramBot = require("node-telegram-bot-api");
 const token = "6045051520:AAHjzgVLYrMisOyhYhH6xjh1JuhK3kNC7pk";
 const bot = new TelegramBot(token, { polling: true });
 const mongoose = require("mongoose");
+const express = require("express");
+const app = express();
 const Users = require("./models/User");
 const Qabul = require("./models/Qabul");
 
@@ -16,7 +18,13 @@ mongoose
   )
   .then(() => {
     console.log("Database connected");
+    app.listen(process.env.PORT || 3000, () => {
+      console.log("Server started on port 3000");
+    });
   });
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
 bot.onText(/\/start/, async (msg) => {
   try {
     const user = await Users.findOne({ id: msg.chat.id });
@@ -118,24 +126,28 @@ bot.on("message", async (msg) => {
     return;
   }
   if (user.type == "number") {
-    const qabul = await Qabul.findOne({id: msg.chat.id})
+    const qabul = await Qabul.findOne({ id: msg.chat.id });
     bot.sendMessage(
       "-1001936206921",
       `<b>Botdan Xabar [Qabulga yozilishdi]</b>
 <b>📌 ${qabul.doctor}\n⏰ ${qabul.time}\n📅 ${qabul.date}\n👤 ${msg.from.first_name}\n📞${msg.text}</b>`,
       { parse_mode: "HTML" }
     );
-    bot.sendMessage(msg.chat.id, `<b>📌 ${qabul.doctor}\n⏰ ${qabul.time}\n📅 ${qabul.date}\n👤 ${msg.from.first_name}\n📞${msg.text}\n✅ Sizni qabulga yozib qo'ydik</b>`, {
-      parse_mode: "HTML",
-      reply_markup: {
-        resize_keyboard: true,
-        keyboard: [
-          ["📃 Savol berish", "✍️ Takliflar"],
-          ["✍️ E'tirozlar", "📝 Qabulga yozilish"],
-          ["📍 Lokatsiya", "💊 Xizmatlar"],
-        ],
-      },
-    });
+    bot.sendMessage(
+      msg.chat.id,
+      `<b>📌 ${qabul.doctor}\n⏰ ${qabul.time}\n📅 ${qabul.date}\n👤 ${msg.from.first_name}\n📞${msg.text}\n✅ Sizni qabulga yozib qo'ydik</b>`,
+      {
+        parse_mode: "HTML",
+        reply_markup: {
+          resize_keyboard: true,
+          keyboard: [
+            ["📃 Savol berish", "✍️ Takliflar"],
+            ["✍️ E'tirozlar", "📝 Qabulga yozilish"],
+            ["📍 Lokatsiya", "💊 Xizmatlar"],
+          ],
+        },
+      }
+    );
     await Users.updateOne(
       { id: msg.chat.id },
       { $set: { type: "registered" } }
