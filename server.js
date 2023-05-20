@@ -165,7 +165,7 @@ bot.on("message", async (msg) => {
     await bot.sendLocation(msg.chat.id, 41.36562948151538, 69.28898248007226);
     await bot.sendMessage(
       msg.chat.id,
-      "🏥 <b>Manzil:</b> Toshkent shahar, Yunusobod Tumani, Axmad Donish ko'chasi 47a\n📞 <b>Telefon:</b> +998 55 500 3200",
+      "🏥 <b>Manzil:</b> Toshkent shahar, Yunusobod Tumani, Axmad Donish ko'chasi 47a\n📞 <b>Telefon:</b> +998555003200",
       { parse_mode: "HTML" }
     );
   }
