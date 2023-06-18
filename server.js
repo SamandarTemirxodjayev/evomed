@@ -267,6 +267,18 @@ bot.on("message", async (msg) => {
                 callback_data: "qabul||Laboratoriya",
               },
             ],
+            [
+              {
+                text: "📌 Pediatr - gastroenterolog",
+                callback_data: "qabul||Pediatr - gastroenterolog",
+              },
+            ],
+            [
+              {
+                text: "📌 Otolaringolog (LOR)",
+                callback_data: "qabul||Otolaringolog (LOR)",
+              },
+            ],
           ],
         },
       }
