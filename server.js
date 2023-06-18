@@ -157,7 +157,7 @@ bot.on("message", async (msg) => {
   if (msg.text == "💊 Xizmatlar") {
     await bot.sendMessage(
       msg.chat.id,
-      "📌 Pediatr\n📌 Nevropatolog\n📌 Ortoped\n📌 Logoped\n📌 Bolalar psixologi\n📌 Massaj\n📌 Fizioterapiya\n📌 EEG\n📌 Laboratoriya",
+      "📌 Pediatr\n📌 Nevropatolog\n📌 Ortoped\n📌 Pediatr- infeksionist\n📌 Bolalar psixologi\n📌 Massaj\n📌 Fizioterapiya\n📌 EEG\n📌 Laboratoriya\n📌 Pediatr - gastroenterolog\n📌 Otolaringolog (LOR)",
       { parse_mode: "HTML" }
     );
   }
@@ -233,8 +233,8 @@ bot.on("message", async (msg) => {
             ],
             [
               {
-                text: "📌 Logoped",
-                callback_data: "qabul||Logoped",
+                text: "📌 Pediatr- infeksionist",
+                callback_data: "qabul||Pediatr- infeksionist",
               },
             ],
             [
