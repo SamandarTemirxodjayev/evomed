@@ -10,7 +10,7 @@ const Qabul = require("./models/Qabul");
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    "mongodb+srv://admin:admin@cluster0.lcxwgc2.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb://127.0.0.1:27017/evomedbot?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.9.1",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -53,7 +53,7 @@ bot.onText(/\/start/, async (msg) => {
 });
 bot.on("message", async (msg) => {
   const user = await Users.findOne({ id: msg.chat.id });
-  if (user.type == "question") {
+  if (user && user.type == "question") {
     bot.sendMessage(msg.chat.id, "<b>Savolingiz yetkazildi</b>", {
       parse_mode: "HTML",
       reply_markup: {
@@ -77,7 +77,7 @@ bot.on("message", async (msg) => {
     );
     return;
   }
-  if (user.type == "taklif") {
+  if (user && user.type == "taklif") {
     bot.sendMessage(msg.chat.id, "<b>Taklifingiz yetkazildi</b>", {
       parse_mode: "HTML",
       reply_markup: {
@@ -101,7 +101,7 @@ bot.on("message", async (msg) => {
     );
     return;
   }
-  if (user.type == "etiroz") {
+  if (user && user.type == "etiroz") {
     bot.sendMessage(msg.chat.id, "<b>E'tirozingiz yetkazildi</b>", {
       parse_mode: "HTML",
       reply_markup: {
@@ -125,7 +125,7 @@ bot.on("message", async (msg) => {
     );
     return;
   }
-  if (user.type == "number") {
+  if (user && user.type == "number") {
     const qabul = await Qabul.findOne({ id: msg.chat.id });
     bot.sendMessage(
       "-1001936206921",
