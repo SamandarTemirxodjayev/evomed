@@ -54,7 +54,18 @@ bot.onText(/\/start/, async (msg) => {
 bot.on("message", async (msg) => {
   const user = await Users.findOne({ id: msg.chat.id });
   if (user && user.type == "question") {
-    bot.sendMessage(msg.chat.id, "<b>Savolingiz yetkazildi</b>", {
+    bot.sendMessage(msg.chat.id, "<b>Telefon raqamingizni kiriting</b>", {
+      parse_mode: "HTML",
+      
+    });
+    await Users.updateOne(
+      { id: msg.chat.id },
+      { $set: { type: "numberForQuestion", text: msg.text } }
+    );
+    return;
+  }
+  if (user && user.type == "numberForQuestion") {
+    bot.sendMessage(msg.chat.id, "<b>Yetkazildi</b>", {
       parse_mode: "HTML",
       reply_markup: {
         resize_keyboard: true,
@@ -67,8 +78,9 @@ bot.on("message", async (msg) => {
     });
     bot.sendMessage(
       "-1001936206921",
-      `<b>Botdan Xabar [Savol berishdi]</b>
-        ${msg.text}`,
+      `<b>Botdan Xabar</b>
+Telefon raqam: ${msg.text}
+Xabar ${user.text}`,
       { parse_mode: "HTML" }
     );
     await Users.updateOne(
@@ -78,50 +90,22 @@ bot.on("message", async (msg) => {
     return;
   }
   if (user && user.type == "taklif") {
-    bot.sendMessage(msg.chat.id, "<b>Taklifingiz yetkazildi</b>", {
+    bot.sendMessage(msg.chat.id, "<b>Telefon raqamingizni kiriting</b>", {
       parse_mode: "HTML",
-      reply_markup: {
-        resize_keyboard: true,
-        keyboard: [
-          ["📃 Savol berish", "✍️ Takliflar"],
-          ["✍️ E'tirozlar", "📝 Qabulga yozilish"],
-          ["📍 Lokatsiya", "💊 Xizmatlar"],
-        ],
-      },
     });
-    bot.sendMessage(
-      "-1001936206921",
-      `<b>Botdan Xabar [Taklif berishdi]</b>
-        ${msg.text}`,
-      { parse_mode: "HTML" }
-    );
     await Users.updateOne(
       { id: msg.chat.id },
-      { $set: { type: "registered" } }
+      { $set: { type: "numberForQuestion", text: msg.text } }
     );
     return;
   }
   if (user && user.type == "etiroz") {
-    bot.sendMessage(msg.chat.id, "<b>E'tirozingiz yetkazildi</b>", {
+    bot.sendMessage(msg.chat.id, "<b>Telefon raqamingizni kiriting</b>", {
       parse_mode: "HTML",
-      reply_markup: {
-        resize_keyboard: true,
-        keyboard: [
-          ["📃 Savol berish", "✍️ Takliflar"],
-          ["✍️ E'tirozlar", "📝 Qabulga yozilish"],
-          ["📍 Lokatsiya", "💊 Xizmatlar"],
-        ],
-      },
     });
-    bot.sendMessage(
-      "-1001936206921",
-      `<b>Botdan Xabar [E'tiroz bildirishdi]</b>
-        ${msg.text}`,
-      { parse_mode: "HTML" }
-    );
     await Users.updateOne(
       { id: msg.chat.id },
-      { $set: { type: "registered" } }
+      { $set: { type: "numberForQuestion", text: msg.text } }
     );
     return;
   }

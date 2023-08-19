@@ -7,6 +7,9 @@ const userSchema = new mongoose.Schema({
   type: {
     type: String
   },
+  text: {
+    type: String
+  }
 });
 const Users = mongoose.model('users', userSchema);
 
