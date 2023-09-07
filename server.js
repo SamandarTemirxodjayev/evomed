@@ -52,6 +52,19 @@ bot.onText(/\/start/, async (msg) => {
   });
 });
 bot.on("message", async (msg) => {
+  try {
+    const user = await Users.findOne({ id: msg.chat.id });
+    if (!user) {
+      const newUser = new Users({
+        id: msg.chat.id,
+        type: "register",
+      });
+      await newUser.save();
+      console.log("User registered");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
   const user = await Users.findOne({ id: msg.chat.id });
   if (user && user.type == "question") {
     bot.sendMessage(msg.chat.id, "<b>Telefon raqamingizni kiriting</b>", {
